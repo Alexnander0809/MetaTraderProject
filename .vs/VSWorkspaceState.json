@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\MetaTraderAPI",
+    "\\MetaTraderAPI\\Controllers",
+    "\\MetaTraderAPI\\Data",
+    "\\MetaTraderAPI\\Models",
+    "\\MetaTraderAPI\\Services"
+  ],
+  "SelectedNode": "\\MetaTraderAPI\\Services\\MetaTraderService.cs",
+  "PreviewInSolutionExplorer": false
+}

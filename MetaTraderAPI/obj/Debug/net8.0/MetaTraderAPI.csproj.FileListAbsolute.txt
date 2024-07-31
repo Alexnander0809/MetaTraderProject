@@ -1,0 +1,8 @@
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.csproj.AssemblyReference.cache
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.AssemblyInfoInputs.cache
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.AssemblyInfo.cs
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.csproj.CoreCompileInputs.cache
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\MetaTraderProject\MetaTraderAPI\obj\Debug\net8.0\MetaTraderAPI.sourcelink.json
