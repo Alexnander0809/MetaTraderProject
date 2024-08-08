@@ -1,6 +1,0 @@
-@MetaTraderAPI_HostAddress = http://localhost:5230
-
-GET {{MetaTraderAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
