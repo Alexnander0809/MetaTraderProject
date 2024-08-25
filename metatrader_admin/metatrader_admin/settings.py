@@ -31,7 +31,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [              
+INSTALLED_APPS = [    
+    'metatrader_admin',
+    'clientes',
+    'cuentas',
+    'inversiones',          
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,13 +86,15 @@ DATABASES = {
         'NAME': 'metatraderdb',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',    
+        'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+            'charset': 'utf8mb4',
+        }
     }
 }
+
 
 
 # Password validation
@@ -127,6 +133,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'public'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'img')
 
 # Default primary key field type

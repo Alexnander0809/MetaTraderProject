@@ -1,0 +1,59 @@
+/* Estilos globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Estilos del cuerpo */
+body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Estilos del contenedor principal */
+.container {
+    text-align: center;
+    padding: 200px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del título */
+.title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilos de los botones */
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    padding: 10px 10px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn:focus {
+    outline: none;
+}
+

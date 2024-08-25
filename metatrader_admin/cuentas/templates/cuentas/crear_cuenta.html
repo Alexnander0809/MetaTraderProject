@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Cuenta</title>
+    <link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cuentas/crear_cuenta.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Añadir Cuenta</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="porcentaje_diario">Porcentaje Diario:</label>
+                <input type="number" step="0.0001" class="form-control" id="porcentaje_diario" name="porcentaje_diario" placeholder="Ingrese el porcentaje diario" required>
+            </div>
+            <div class="form-group">
+                <label for="monto_invertido">Monto Invertido:</label>
+                <input type="number" step="0.01" class="form-control" id="monto_invertido" name="monto_invertido" placeholder="Ingrese el monto invertido" required>
+            </div>
+            <div class="form-group">
+                <label for="interes_compuesto">Interés Compuesto:</label>
+                <select class="form-control" id="interes_compuesto" name="interes_compuesto" required>
+                  <option value="True">Sí</option>
+                  <option value="False">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="clausula_tiempo">Cláusula Tiempo:</label>
+                <input type="number" class="form-control" id="clausula_tiempo" name="clausula_tiempo" placeholder="Ingrese la cláusula de tiempo" required>
+            </div>
+            <div class="form-group">
+                <label for="cliente">Cliente:</label>
+                <select class="form-control" id="cliente" name="cliente" required>
+                  {% for cliente in clientes %}
+                  <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" class="form-control" id="estado" name="estado" placeholder="Ingrese el estado" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Guardar Cuenta</button>
+        </form>
+    </div>
+</body>
+</html>

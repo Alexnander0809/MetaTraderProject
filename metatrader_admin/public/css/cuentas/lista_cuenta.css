@@ -1,0 +1,132 @@
+/* Estilos generales para el cuerpo */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 900px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo del título */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+/* Estilo de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f0f0f0;
+    color: #555;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Estilo para cuando no hay clientes */
+tbody tr.no-data {
+    background-color: #fff;
+}
+
+tbody tr.no-data td {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        width: 100%;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}
+
+/* Contenedor de los botones */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.button-group .btn {
+    margin-right: 10px;
+}
+
+.button-group .btn:last-child {
+    margin-right: 0;
+}
+
+/* Estilos para los íconos en la tabla */
+.table-icons {
+    display: flex;
+    justify-content: center; /* Centra los íconos horizontalmente */
+    align-items: center; /* Alinea verticalmente los íconos */
+}
+
+.table-icons a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    color: #333; /* Color del ícono */
+    font-size: 1.2rem; /* Tamaño del ícono */
+    margin: 0 0.2rem; /* Reduce el espaciado horizontal entre íconos */
+}
+
+.table-icons a:hover {
+    color: #007bff; /* Color del ícono al pasar el ratón */
+}
+
+/* Ajuste adicional para el tamaño de los íconos en la tabla */
+table i {
+    font-size: 1.2rem; /* Tamaño de los íconos */
+}
+
+/* Asegúrate de que el padding en las celdas no esté causando problemas */
+td {
+    padding: 10px; /* Ajusta según sea necesario */
+}
+    

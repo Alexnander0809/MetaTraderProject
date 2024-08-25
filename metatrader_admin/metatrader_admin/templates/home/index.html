@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Empresa</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">MetaTraderProject</h1>
+        <div class="buttons">
+            <a href="{% url 'lista_cliente' %}"><button class="btn">Clientes</button></a>
+            <a href="{% url 'lista_cuenta' %}"><button class="btn">Cuentas</button></a>
+            <a href="{% url 'lista_inversion' %}"><button class="btn">Inversiones</button></a>
+        </div>
+    </div>
+</body>
+</html>
