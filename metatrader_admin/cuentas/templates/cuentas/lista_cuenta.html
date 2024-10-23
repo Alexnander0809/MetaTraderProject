@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,25 +9,114 @@
     <link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/cuentas/lista_cuenta.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos personalizados para las alertas */
+        .alert-inline {
+            margin-top: 10px;
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            opacity: 0.95;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .alert-success-inline {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        /* Estilos para la disposición de botones y filtros */
+        .title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0; /* Espacio superior e inferior para la barra del título */
+        }
+
+        .title-bar h1 {
+            margin: 0;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between; /* Distribuye los botones a ambos lados */
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button-group .btn-left {
+            margin-right: auto; /* Alinea el botón "Volver a la página principal" a la izquierda */
+        }
+
+        .button-group .btn-right {
+            display: flex;
+            gap: 10px; /* Espacio entre los botones */
+        }
+
+        /* Personaliza el ancho del contenedor */
+        .custom-container {
+            max-width: 1200px; /* Ajusta el ancho máximo según lo necesario */
+            margin: 0 auto; /* Centra el contenedor */
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Listado de Cuentas</h1> 
+    <div class="container custom-container">
+        <div class="title-bar">
+            <h1>Listado de Cuentas</h1>
+        </div>
+
         <div class="button-group">
-            <a href="{% url 'principal' %}"><button type="button" class="btn btn-secondary">Volver a la página principal</button></a>
-            <a href="{% url 'crear_cuenta' %}"><button type="button" class="btn btn-success">Añadir cuenta</button></a>
-        </div>           
-        <br>
-        <table> 
+            <a href="{% url 'principal' %}" class="btn-left"><button type="button" class="btn btn-secondary">Volver a la página principal</button></a>
+            <div class="btn-right">
+                <a href="{% url 'crear_cuenta' %}"><button type="button" class="btn btn-success">Añadir cuenta</button></a>
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filtrar
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="?filter=active">Activos</a></li>
+                        <li><a class="dropdown-item" href="?filter=inactive">Inactivos</a></li>
+                        <li><a class="dropdown-item" href="?filter=all">Mostrar todos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <form method="get" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="cedula" placeholder="Buscar por cédula" value="{{ request.GET.cedula }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        <!-- Mostrar mensajes de alerta -->
+        {% if messages %}
+            <div id="alert-container">
+                {% for message in messages %}
+                    <div class="alert-inline {% if message.tags == 'success' %}alert-success-inline{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Numero de Cuenta</th>
+                    <th>Cliente</th>
+                    <th>Porcentaje Mensual</th>
                     <th>Porcentaje Diario</th>
-                    <th>Monto Invertido</th>
+                    <th>Total Invertido</th>
                     <th>Interés Compuesto</th>
                     <th>Fecha de Creación</th>
-                    <th>Cláusula Tiempo</th>
-                    <th>Cliente</th>
                     <th>Estado</th>
                     <th>Opciones</th>
                 </tr>
@@ -36,23 +126,27 @@
                     {% for cuenta in cuentas %}
                     <tr>
                         <td>{{ cuenta.id }}</td>
+                        <td>{{ cuenta.numero_cuenta }}</td>
+                        <td>{{ cuenta.cliente }}</td>
+                        <td>{{ cuenta.porcentaje_mensual }}</td>
                         <td>{{ cuenta.porcentaje_diario }}</td>
-                        <td>{{ cuenta.monto_invertido }}</td>
+                        <td>{{ cuenta.total_invertido }}</td>
                         <td>{{ cuenta.interes_compuesto }}</td>
                         <td>{{ cuenta.fecha_creacion }}</td>
-                        <td>{{ cuenta.clausula_tiempo }}</td>
-                        <td>{{ cuenta.cliente }}</td>
                         <td>{{ cuenta.estado }}</td>
-                        <td class="table-icons"><a href="{% url 'actualizar_cuenta' cuenta.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                        <td class="table-icons"><a href="{% url 'actualizar_cuenta' cuenta.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10">No hay cuentas disponibles.</td>
                     </tr>
                     {% endfor %}
-                {% else %}
-                <tr class="no-data">
-                    <td colspan="9">No se encontraron cuentas.</td>    
-                </tr>
                 {% endif %}
             </tbody>
         </table>
     </div>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
+
 </html>

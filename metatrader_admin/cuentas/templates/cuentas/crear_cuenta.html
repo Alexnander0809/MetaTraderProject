@@ -1,51 +1,170 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Cuenta</title>
+    <!-- Cargar Bootstrap y tu CSS personalizado -->
     <link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/cuentas/crear_cuenta.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script defer>
+        // Función para mostrar alertas
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+            alert.role = 'alert';
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            alertContainer.appendChild(alert);
+        }
+
+        // Formatear automáticamente con guiones el número de cuenta
+        function formatAccountNumber(input) {
+            let value = input.value.replace(/\D/g, ""); // Eliminar cualquier cosa que no sea un número
+
+            if (value.length > 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            if (value.length > 9) {
+                value = value.substring(0, 10) + '-' + value.substring(10);
+            }
+            input.value = value;
+        }
+
+        // Limitar el porcentaje mensual a 5 dígitos
+        function limitPercentage(input) {
+            if (input.value.length > 5) {
+                input.value = input.value.slice(0, 5); // Limitar a 5 dígitos
+            }
+            updateDailyPercentage(); // Actualizar porcentaje diario cuando se cambie el porcentaje mensual
+        }
+
+        // Actualizar el porcentaje diario basado en el porcentaje mensual
+        function updateDailyPercentage() {
+            const monthlyPercentageInput = document.getElementById('porcentaje_mensual');
+            const dailyPercentageInput = document.getElementById('porcentaje_diario');
+
+            let monthlyPercentage = parseFloat(monthlyPercentageInput.value) || 0;
+            let dailyPercentage = (monthlyPercentage / 30).toFixed(4); // Redondear a 4 decimales
+
+            dailyPercentageInput.value = dailyPercentage;
+        }
+
+        // Formatear el monto total con signo de peso y separadores de miles
+        function formatCurrency(input) {
+            let value = input.value.replace(/[$\s.,]/g, ""); // Eliminar signo de peso y separadores
+            if (value) {
+                input.value = new Intl.NumberFormat('es-CO').format(value);
+            }
+        }
+
+        // Limpiar el monto total para que solo contenga el valor numérico
+        function cleanCurrencyInput(input) {
+            let value = input.value.replace(/[$.,]/g, ""); // Eliminar signo de peso y separadores
+            input.value = value;
+        }
+
+        // Limpiar el monto total antes de enviar el formulario
+        function handleFormSubmit(event) {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = ''; // Limpiar alertas previas
+
+            const totalInvertidoInput = document.getElementById('total_invertido');
+            cleanCurrencyInput(totalInvertidoInput);
+
+            // Validaciones del lado del cliente
+            const numeroCuentaInput = document.getElementById('numero_cuenta');
+            const porcentajeMensualInput = document.getElementById('porcentaje_mensual');
+            const clienteSelect = document.getElementById('cliente');
+
+            if (!numeroCuentaInput.value.match(/^\d{3}-\d{6}-\d{2}$/)) {
+                showAlert('El número de cuenta debe tener el formato XXX-XXXXXX-XX', 'danger');
+                event.preventDefault();
+                return;
+            }
+
+            if (parseFloat(porcentajeMensualInput.value) < 0 || parseFloat(porcentajeMensualInput.value) > 100) {
+                showAlert('El porcentaje mensual debe estar entre 0 y 100', 'danger');
+                event.preventDefault();
+                return;
+            }
+
+            if (clienteSelect.value === '') {
+                showAlert('Por favor, seleccione un cliente', 'danger');
+                event.preventDefault();
+                return;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', handleFormSubmit);
+        });
+    </script>
 </head>
+
 <body>
     <div class="form-container">
         <h2>Añadir Cuenta</h2>
+        <!-- Contenedor de alertas -->
+        <div id="alert-container">
+            {% if messages %}
+                <ul class="list-unstyled">
+                    {% for message in messages %}
+                        <li class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
+                <label for="numero_cuenta">Número de Cuenta:</label>
+                <input type="text" class="form-control" id="numero_cuenta" name="numero_cuenta" placeholder="Ingrese el número de cuenta" required oninput="formatAccountNumber(this)" maxlength="13">
+                <small class="form-text text-muted">Formato: XXX-XXXXXX-XX</small>
+            </div>
+            <div class="form-group">
+                <label for="porcentaje_mensual">Porcentaje Mensual:</label>
+                <input type="number" step="0.01" class="form-control" id="porcentaje_mensual" name="porcentaje_mensual" placeholder="Ingrese el porcentaje mensual" required oninput="limitPercentage(this)">
+            </div>
+            <div class="form-group">
                 <label for="porcentaje_diario">Porcentaje Diario:</label>
-                <input type="number" step="0.0001" class="form-control" id="porcentaje_diario" name="porcentaje_diario" placeholder="Ingrese el porcentaje diario" required>
+                <input type="number" step="0.0001" class="form-control" id="porcentaje_diario" name="porcentaje_diario" placeholder="Porcentaje diario calculado automáticamente" required readonly>
             </div>
             <div class="form-group">
-                <label for="monto_invertido">Monto Invertido:</label>
-                <input type="number" step="0.01" class="form-control" id="monto_invertido" name="monto_invertido" placeholder="Ingrese el monto invertido" required>
+                <label for="total_invertido">Monto Total Invertido:</label>
+                <input type="text" class="form-control" id="total_invertido" name="total_invertido" placeholder="Ingrese el monto invertido" required oninput="formatCurrency(this)">
             </div>
-            <div class="form-group">
-                <label for="interes_compuesto">Interés Compuesto:</label>
-                <select class="form-control" id="interes_compuesto" name="interes_compuesto" required>
-                  <option value="True">Sí</option>
-                  <option value="False">No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="clausula_tiempo">Cláusula Tiempo:</label>
-                <input type="number" class="form-control" id="clausula_tiempo" name="clausula_tiempo" placeholder="Ingrese la cláusula de tiempo" required>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="interes_compuesto" name="interes_compuesto">
+                <label class="form-check-label" for="interes_compuesto">Interés Compuesto</label>
             </div>
             <div class="form-group">
                 <label for="cliente">Cliente:</label>
                 <select class="form-control" id="cliente" name="cliente" required>
-                  {% for cliente in clientes %}
-                  <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
-                  {% endfor %}
+                    <option value="" disabled selected>Seleccione un cliente</option>
+                    {% for cliente in clientes %}
+                        <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                    {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <input type="text" class="form-control" id="estado" name="estado" placeholder="Ingrese el estado" required>
-            </div>
-            <button type="submit" class="btn btn-primary mt-3">Guardar Cuenta</button>
+            <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+            <a href="{% url 'lista_cuenta' %}" class="back-icon">
+                <i class="fas fa-arrow-left"></i> Volver a la lista de cuentas
+            </a>
         </form>
     </div>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
 </body>
+
 </html>

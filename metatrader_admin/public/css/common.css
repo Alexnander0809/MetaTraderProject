@@ -1,0 +1,55 @@
+/* common.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px; /* Ajusta según lo necesario */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.back-icon {
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.back-icon:hover {
+    color: #0056b3;
+}
+
+.alert-inline {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    opacity: 0.95;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.alert-success-inline {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.btn-block {
+    width: 100%;
+}
